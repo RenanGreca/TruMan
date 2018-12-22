@@ -1,0 +1,209 @@
+## Simulation settings for Working Day Movement Model
+## This simulation runs on all of Helsinki's map.
+
+## References: 
+# TruMan: https://github.com/RenanGreca/TruMan
+# WDMM: https://dl.acm.org/citation.cfm?id=1374695
+# The ONE: https://akeranen.github.io/the-one/
+
+## Scenario settings
+Scenario.name = wdmm_scenario
+Scenario.simulateConnections = true
+Scenario.updateInterval = 1
+# 86400s = 24h
+Scenario.endTime = 86400
+
+## Interface settings
+highspeedInterface.type = SimpleBroadcastInterface
+highspeedInterface.transmitSpeed = 1M
+highspeedInterface.transmitRange = 50
+
+# 9 groups of nodes
+Scenario.nrofHostGroups = 9
+
+# Global settings
+# Most settings taken from WDMM article
+Group.bufferSize = 5M
+Group.nrOfInterfaces = 1
+Group.interface1 = highspeedInterface
+Group.speed = 7, 10
+
+# WDMM settings
+# 28800s = 8h
+Group.workDayLength = 28800
+
+Group.officeSize = 1
+Group.officeWaitTimeParetoCoeff = 0.5
+Group.officeMinWaitTime = 10
+Group.officeMaxWaitTime = 30
+
+# Standard deviation applied to nodes' movement times.
+# 7200s = 2h
+Group.timeDiffSTD = 7200
+
+Group.minGroupSize = 1
+Group.maxGroupSize = 3
+
+Group.probGoShoppingAfterWork = 0.5
+Group.minAfterShoppingStopTime = 10
+Group.maxAfterShoppingStopTime = 30
+
+Group.busControlSystemNr = 0
+Group.shoppingControlSystemNr = 0
+
+Group.ownCarProb = 1
+
+# Group W moving nodes
+Group1.groupID = W
+Group1.nrofHosts = 100
+Group1.MovementModel = MapRouteMovement
+
+# Group A - constrained to region A
+Group2.movementModel = WorkingDayMovement
+Group2.groupID = A
+
+Group2.nrofHosts = 150
+Group2.homeLocationsFile = data/HelsinkiMedium/A_homes.wkt
+
+Group2.nrOfMeetingSpots = 4
+Group2.meetingSpotsFile = data/HelsinkiMedium/A_meetingspots.wkt
+
+Group2.nrOfOffices = 30
+Group2.officeLocationsFile = data/HelsinkiMedium/A_offices.wkt
+
+# Group B - constrained to region B
+Group3.movementModel = WorkingDayMovement
+Group3.groupID = B
+
+Group3.nrofHosts = 50
+Group3.homeLocationsFile = data/HelsinkiMedium/B_homes.wkt
+
+Group3.nrOfMeetingSpots = 1
+Group3.meetingSpotsFile = data/HelsinkiMedium/B_meetingspots.wkt
+
+Group3.nrOfOffices = 10
+Group3.officeLocationsFile = data/HelsinkiMedium/B_offices.wkt
+
+# Group C - constrained to region C
+Group4.movementModel = WorkingDayMovement
+Group4.groupID = C
+
+Group4.nrofHosts = 100
+Group4.homeLocationsFile = data/HelsinkiMedium/C_homes.wkt
+
+Group4.nrOfMeetingSpots = 2
+Group4.meetingSpotsFile = data/HelsinkiMedium/C_meetingspots.wkt
+
+Group4.nrOfOffices = 20
+Group4.officeLocationsFile = data/HelsinkiMedium/C_offices.wkt
+
+# Group D - constrained to region D
+Group5.movementModel = WorkingDayMovement
+Group5.groupID = D
+
+Group5.nrofHosts = 100
+Group5.homeLocationsFile = data/HelsinkiMedium/D_homes.wkt
+
+Group5.nrOfMeetingSpots = 2
+Group5.meetingSpotsFile = data/HelsinkiMedium/D_meetingspots.wkt
+
+Group5.nrOfOffices = 20
+Group5.officeLocationsFile = data/HelsinkiMedium/D_offices.wkt
+
+# Group E - constrained to regions A and B
+Group6.movementModel = WorkingDayMovement
+Group6.groupID = E
+
+Group6.nrofHosts = 100
+Group6.homeLocationsFile = data/HelsinkiMedium/E_homes.wkt
+
+Group6.nrOfMeetingSpots = 2
+Group6.meetingSpotsFile = data/HelsinkiMedium/E_meetingspots.wkt
+
+Group6.nrOfOffices = 20
+Group6.officeLocationsFile = data/HelsinkiMedium/E_offices.wkt
+
+# Group F - constrained to regions A and C
+Group7.movementModel = WorkingDayMovement
+Group7.groupID = F
+
+Group7.nrofHosts = 150
+Group7.homeLocationsFile = data/HelsinkiMedium/F_homes.wkt
+
+Group7.nrOfMeetingSpots = 4
+Group7.meetingSpotsFile = data/HelsinkiMedium/F_meetingspots.wkt
+
+Group7.nrOfOffices = 30
+Group7.officeLocationsFile = data/HelsinkiMedium/F_offices.wkt
+
+# Group G - constrained to regions A and D
+Group8.movementModel = WorkingDayMovement
+Group8.groupID = G
+
+Group8.nrofHosts = 150
+Group8.homeLocationsFile = data/HelsinkiMedium/G_homes.wkt
+
+Group8.nrOfMeetingSpots = 4
+Group8.meetingSpotsFile = data/HelsinkiMedium/G_meetingspots.wkt
+
+Group8.nrOfOffices = 30
+Group8.officeLocationsFile = data/HelsinkiMedium/G_offices.wkt
+
+# Group H - whole map
+Group9.movementModel = WorkingDayMovement
+Group9.groupID = H
+
+Group9.nrofHosts = 200
+# Group9.homeLocationsFile = data/HelsinkiMedium/H_homes.wkt
+
+Group9.nrOfMeetingSpots = 5
+# Group9.meetingSpotsFile = data/HelsinkiMedium/H_meetingspots.wkt
+
+Group9.nrOfOffices = 40
+# Group9.officeLocationsFile = data/HelsinkiMedium/H_offices.wkt
+
+## Message creation parameters
+# How many event generators
+Events.nrof = 1
+# Class of the first event generator
+Events1.class = MessageEventGenerator
+# (following settings are specific for the MessageEventGenerator class)
+# Creation interval in seconds (one new message every 25 to 35 seconds)
+Events1.interval = 25,35
+# Message sizes (500kB - 1MB)
+Events1.size = 500k,1M
+# range of message source/destination addresses
+Events1.hosts = 0,2
+# Message ID prefix
+Events1.prefix = M
+
+
+MovementModel.rngSeed = 1
+# World size - based on whole Helsinki map (width, height; meters)
+MovementModel.worldSize = 8295, 7305
+
+# Helsinki map files
+MapBasedMovement.nrofMapFiles = 1
+MapBasedMovement.mapFile1 = data/HelsinkiMedium/roads.wkt
+# MapBasedMovement.mapFile2 = data/main_roads.wkt
+# MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+# MapBasedMovement.mapFile4 = data/shops.wkt
+
+## Report settings
+Report.nrofReports = 1
+Report.warmup = 0
+Report.reportDir = reports/
+Report.granularity = 10
+# Adjacency snapshot report module found here:
+# https://github.com/RenanGreca/the-one
+Report.report1 = AdjacencySnapshotReport
+
+## GUI settings
+# GUI underlay image settings (doesn't seem to work)
+GUI.UnderlayImage.fileName = data/helsinki_underlay.png
+# Image offset in pixels (x, y)
+GUI.UnderlayImage.offset = 64, 20
+# Scaling factor for the image
+GUI.UnderlayImage.scale = 4.75
+# Image rotation (radians)
+GUI.UnderlayImage.rotate = -0.015

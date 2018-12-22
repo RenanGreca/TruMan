@@ -1,0 +1,123 @@
+## Settings for Working Day Movement Model in the ONE simulator.
+## This simulation runs on a section of Helsinki's map.
+
+## References: 
+# TruMan: https://github.com/RenanGreca/TruMan
+# WDMM: https://dl.acm.org/citation.cfm?id=1374695
+# The ONE: https://akeranen.github.io/the-one/
+
+# Using array-like syntax, it is possible to configure 
+# different parameters for consecutive simulations. For TruMan,
+# we only change the simulation name and the transmission range.
+# To run several simulations, change the parameter for -b when
+# running one.sh.
+
+# The ranges tested were: 50, 100, 150, 200, 250, 300.
+
+## Scenario settings
+Scenario.name = [wdmm_small_50; wdmm_small_100]
+Scenario.simulateConnections = true
+Scenario.updateInterval = 1
+# 86400s = 24h
+Scenario.endTime = 86400
+
+## Interface settings
+highspeedInterface.type = SimpleBroadcastInterface
+highspeedInterface.transmitSpeed = 1M
+highspeedInterface.transmitRange = [50; 100]
+
+# Two groups of nodes
+Scenario.nrofHostGroups = 2
+
+# Global node settings
+Group.bufferSize = 5M
+Group.nrOfInterfaces = 1
+Group.interface1 = highspeedInterface
+Group.speed = 7, 10
+
+Group.busControlSystemNr = 0
+Group.shoppingControlSystemNr = 0
+
+# All nodes have/are cars
+Group.ownCarProb = 1
+
+# Group A moves according to WDMM.
+# Most settings taken from WDMM article.
+Group1.nrofHosts = 150
+Group1.movementModel = WorkingDayMovement
+Group1.groupID = A
+# As a rule of thumb, work day length is 1/3 of whole day
+# 28800s = 8h
+Group1.workDayLength = 28800
+
+Group1.nrOfOffices = 30
+# We don't want mobility within offices.
+Group1.officeSize = 0
+Group1.officeWaitTimeParetoCoeff = 0.5
+Group1.officeMinWaitTime = 10
+Group1.officeMaxWaitTime = 20
+
+# Standard deviation applied to nodes' movement times.
+# 7200s = 2h
+Group1.timeDiffSTD = 7200
+
+# After work activities
+Group1.nrOfMeetingSpots = 4
+Group1.minGroupSize = 1
+Group1.maxGroupSize = 3
+
+Group1.probGoShoppingAfterWork = 0.5
+Group1.minAfterShoppingStopTime = 10
+Group1.maxAfterShoppingStopTime = 30
+
+# Group W moves randomly.
+Group2.groupID = W
+Group2.nrofHosts = 10
+Group2.MovementModel = MapRouteMovement
+
+
+## Message creation parameters
+# How many event generators
+Events.nrof = 1
+# Class of the first event generator
+Events1.class = MessageEventGenerator
+# (following settings are specific for the MessageEventGenerator class)
+# Creation interval in seconds (one new message every 25 to 35 seconds)
+Events1.interval = 25,35
+# Message sizes (500kB - 1MB)
+Events1.size = 500k,1M
+# range of message source/destination addresses
+Events1.hosts = 0,2
+# Message ID prefix
+Events1.prefix = M
+
+
+MovementModel.rngSeed = 1
+# World size - based on partial Helsinki map (width, height; meters)
+MovementModel.worldSize = 4385, 3350
+
+# Helsinki map files
+MapBasedMovement.nrofMapFiles = 4
+MapBasedMovement.mapFile1 = data/roads.wkt
+MapBasedMovement.mapFile2 = data/main_roads.wkt
+MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+MapBasedMovement.mapFile4 = data/shops.wkt
+
+## Report settings
+Report.nrofReports = 1
+Report.warmup = 0
+Report.reportDir = reports/
+Report.granularity = 10
+# Adjacency snapshot report module found here:
+# https://github.com/RenanGreca/the-one
+Report.report1 = AdjacencySnapshotReport
+
+## GUI settings
+# GUI underlay image settings (doesn't seem to work)
+GUI.UnderlayImage.fileName = data/helsinki_underlay.png
+# Image offset in pixels (x, y)
+GUI.UnderlayImage.offset = 64, 20
+# Scaling factor for the image
+GUI.UnderlayImage.scale = 4.75
+# Image rotation (radians)
+GUI.UnderlayImage.rotate = -0.015
