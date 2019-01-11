@@ -60,30 +60,6 @@ def generate_weights(input_dir, output_dir, malicious_number, should_draw_graph=
     segment = int(len(nodes)*(malicious_number/100))
     malicious = nodes[:segment]
 
-    # print 'building trust graph'
-    # # Builds the new trust graph
-    # Trust_Graph = PNGraph.New()
-    # for edge in Graph.Edges():
-    #     u = edge.GetSrcNId()
-    #     v = edge.GetDstNId()
-
-    #     if not Trust_Graph.IsNode(u):
-    #         Trust_Graph.AddNode(u)
-    #     if not Trust_Graph.IsNode(v):
-    #         Trust_Graph.AddNode(v)
-
-    #     # Add edges both ways according to maliciousness
-    #     add_edge(Trust_Graph, malicious, u, v)
-    #     add_edge(Trust_Graph, malicious, v, u)
-    
-    # if should_draw_graph:
-    #     print 'drawing graph'
-    #     draw_graph(Trust_Graph, output_dir, 'trust')
-
-    # print 'saving output files...'
-    # trust_edges = os.path.join(output_dir, 'trust.edges')
-    # SaveEdgeList(Trust_Graph, trust_edges)
-    # print 'saved trust'
     topology_edges = os.path.join(output_dir, 'topology.edges')
     SaveEdgeList(Graph, topology_edges)
     print 'saved topology'
