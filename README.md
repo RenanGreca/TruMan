@@ -46,23 +46,23 @@ Due to SNAP, TruMan requires Python 2.7.
 
 3. Extract the adjacency snapshots from the report. This separates the report from The ONE (which can be quite large) into smaller files; one for each timestamp.
 
-    ```python process_report.py -r ../the-one/reports -o processed_reports```
+    ```python process_report.py -i ../the-one/reports -o processed_reports```
     
     - `-i`: Input directory, containing the reports files.
     - `-o`: Output directory, which will contain the processed mobility data, in sub-directories named after the scenarios.
 
-4. Generate the weights. This marks a set of nodes as malicious.
+4. Generate the weights. This marks a set of nodes as malicious and stores the ground truth data.
 
     ```python generate_weights.py -i processed_reports/wdmm_small_50 -o networks -m 10 --draw_graph```
 
     - `-i`: Input directory containing the processed mobility data.
-    - `-o`: Output directory, which will contain the ground truth data for the simulation.
+    - `-o`: Output directory. Subdirectories are created according to the scenario and the percentage of malicious node.
     - `-m`: Percentage of malicious nodes. Valid values: `0.0-50.0` (float).
     - `--draw_graph`: If enabled, generate a PNG file with the graph topology.
 
 5. Run TruMan. The input and output directories should be the same as the previous script.
 
-    ```python trust_snap.py -i processed_reports/wdmm_small_50 -o networks/wdmm_small_50 -p```
+    ```python trust_snap.py -i processed_reports/wdmm_small_50 -o networks/wdmm_small_50/10.0% -p```
 
     - `-i`: Input directory containing the processed mobility data.
     - `-o`: Output directory, should contain the ground truth data for the simulation. The results are saved in a `results` subdirectory.
